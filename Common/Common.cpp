@@ -5,8 +5,11 @@
 std::vector<std::string> logMessages;  // Shared container for received strings
 std::mutex logMutex;                  // Mutex to protect the container
 bool isRunning = true;                // Flag to signal threads to stop
-//std::string buttonStates[4] = { "OFF", "OFF", "OFF", "OFF" };
+std::string COMMUNICATION_MODE = "None";
+int TICK_NB = 0;
+double DISTANCE_THRESHOLD = 0.0;
 
+std::mutex deviceMutex;
 
 //General DATA:
 constexpr const int windowWidth = 1800;
@@ -48,13 +51,4 @@ const sf::Color color4 = sf::Color::Yellow;
 std::string state4 = off;
 const std::string iconPath4 = "assets/Icons/routing.png";
 
-
-//
-//
-//Button button1(x1coor, y1coor, width1, height1, color1, state1, on, off, iconPath1);
-//Button button2(x2coor, y2coor, width2, height2, color2, state2, on, off, iconPath2);
-//Button button3(x3coor, y3coor, width3, height3, color3, state3, on, off, iconPath3);
-//Button button4(x4coor, y4coor, width4, height4, color4, state4, on, off, iconPath4);
-//
-//VisualiserManager visualiserManager(buttonStates);
 

@@ -33,7 +33,7 @@ int main() {
     manager.addButton(std::move(button4));
 
     // Start threads
-    std::thread network(networkThread);
+    std::thread network(networkThread,std::ref (manager));
     std::thread display(displayThread, std::ref(manager));
 
 

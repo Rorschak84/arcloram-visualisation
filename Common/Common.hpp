@@ -17,6 +17,7 @@ extern bool isRunning;                // Flag to signal threads to stop
 extern std::string COMMUNICATION_MODE;
 extern int TICK_NB; 
 extern double DISTANCE_THRESHOLD;
+extern std::mutex deviceMutex;
 
 
 

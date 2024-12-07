@@ -50,7 +50,7 @@ inline  void displayThread(VisualiserManager& manager) {
 
         // Draw visualiser manager
         manager.draw(window);
-
+        {
         std::lock_guard<std::mutex> lock(logMutex);
         float y = 1000.0f;
 
@@ -64,6 +64,8 @@ inline  void displayThread(VisualiserManager& manager) {
             window.draw(text);
             y -= 25.0f;
         }
+        }
+
 
         window.display();
         std::this_thread::sleep_for(std::chrono::milliseconds(10));

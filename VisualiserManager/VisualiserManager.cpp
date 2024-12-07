@@ -1,36 +1,4 @@
-//#include <SFML/Graphics.hpp>
-//#include "Device.cpp"
-//
-//class VisualiserManager {
-//
-//private:
-//    sf::Font font;
-//    sf::Text text;
-//    std::string(&_buttonStates)[4];
-//
-//
-//    std::vector<Device> devices;
-//
-//public:
-//    VisualiserManager(std::string(& buttonStates)[4]): _buttonStates(buttonStates) {
-//        if (!font.loadFromFile("assets/arial.ttf")) {
-//            throw std::runtime_error("Failed to load font");
-//        }
-//        text.setFont(font);
-//        text.setCharacterSize(20);
-//        text.setFillColor(sf::Color::White);
-//    }
-//
-//    void draw(sf::RenderWindow& window) {
-//        std::string displayText = "Button States:\n";
-//        for (int i = 0; i < 4; ++i) {
-//            displayText += "Button " + std::to_string(i + 1) + ": " + _buttonStates[i] + "\n";
-//        }
-//        text.setString(displayText);
-//        text.setPosition(10.f, 150.f); // Display below buttons
-//        window.draw(text);
-//    }
-//};
+
 
 
 #include "VisualiserManager.hpp"
@@ -46,6 +14,16 @@ VisualiserManager::VisualiserManager()
     text.setCharacterSize(20);
     text.setFillColor(sf::Color::White);
 
+
+    communicationMode.setFont(font);
+    communicationMode.setCharacterSize(40);
+    communicationMode.setPosition(10.f, 10.f);
+    communicationMode.setFillColor(sf::Color::White);
+
+    tickNb.setFont(font);
+    tickNb.setCharacterSize(20);
+    tickNb.setPosition(10.f, 80.f);
+    tickNb.setFillColor(sf::Color::White);
 }
 
 void VisualiserManager::addButton(std::unique_ptr<Button> button) {
@@ -54,6 +32,14 @@ void VisualiserManager::addButton(std::unique_ptr<Button> button) {
 
 void VisualiserManager::draw(sf::RenderWindow& window) {
     std::ostringstream displayText;
+
+    communicationMode.setString("Communication Mode: "+COMMUNICATION_MODE);
+    window.draw(communicationMode);
+
+    tickNb.setString("Tick Number: " + std::to_string(TICK_NB));
+    window.draw(tickNb);
+
+    //Button States
     displayText << "Button States:\n";
 
     for (int i = 0; i < buttons.size(); ++i) {
@@ -62,4 +48,11 @@ void VisualiserManager::draw(sf::RenderWindow& window) {
     text.setString(displayText.str());
     text.setPosition(10.f, 300.f); // Display below buttons
     window.draw(text);
+
+
+
+    //draw devices
+    for (auto& device : devices) {
+        device.draw(window);
+    }
 }

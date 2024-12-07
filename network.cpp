@@ -11,7 +11,7 @@
 
 
 
-inline void networkThread() {
+inline void networkThread(VisualiserManager& manager) {
     sf::TcpListener listener;
     std::vector<std::unique_ptr<sf::TcpSocket>> clients;
 
@@ -50,6 +50,8 @@ inline void networkThread() {
                     std::cout << "Received systemPacket: "
                         << "distanceThreshold=" << sp.distanceThreshold
                         << ", mode=" << sp.mode << std::endl;
+                    DISTANCE_THRESHOLD = sp.distanceThreshold;
+                    COMMUNICATION_MODE = sp.mode;
                     std::string message = "Received systemPacket: distanceThreshold=" + std::to_string(sp.distanceThreshold) + ", mode=" + sp.mode;
                     {
                         std::lock_guard<std::mutex> lock(logMutex);
@@ -62,6 +64,7 @@ inline void networkThread() {
                     packet >> tp.tickNb; // Deserialize the systemPacket
                     std::cout << "Received tickPacket: "
                         << "tickNumber=" << tp.tickNb << std::endl;
+                    TICK_NB = tp.tickNb;
                     std::string message = "Received tickPacket: tickNumber=" + std::to_string(tp.tickNb);
                     {
                         std::lock_guard<std::mutex> lock(logMutex);
@@ -89,6 +92,14 @@ inline void networkThread() {
                         << "nodeId=" << pp.nodeId
                         << "coordinates=(" << pp.coordinates.first
                         << ", " << pp.coordinates.second << ")" << std::endl;
+
+                    {
+                        std::lock_guard<std::mutex> lock(deviceMutex);
+                        // Update the device position
+                        //TODO: adapt the magnitude in the simulator to the relative magnitude in the visualisator
+                        manager.devices.push_back(Device(pp.nodeId,pp.classNode, pp.coordinates));
+                    }
+
                     std::string message = "Received positionPacket: nodeId=" + std::to_string(pp.nodeId) + ", coordinates=(" + std::to_string(pp.coordinates.first) + ", " + std::to_string(pp.coordinates.second) + ")";
                     {
                         std::lock_guard<std::mutex> lock(logMutex);
