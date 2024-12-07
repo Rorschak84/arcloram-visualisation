@@ -11,7 +11,6 @@ public:
     int classNode;
 
     sf::CircleShape shape;
-    sf::Sprite icon;            // Icon inside the button
     sf::Texture iconTexture;    // Texture for the icon
     std::string state;
 

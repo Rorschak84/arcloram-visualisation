@@ -87,9 +87,10 @@ inline void networkThread(VisualiserManager& manager) {
                 }
                 case 3: {
                     positionPacket pp;
-                    packet >>pp.nodeId>> pp.coordinates.first>> pp.coordinates.second; // Deserialize the positionPacket
+                    packet >>pp.nodeId>> pp.classNode>> pp.coordinates.first>> pp.coordinates.second; // Deserialize the positionPacket
                     std::cout << "Received positionPacket: "
                         << "nodeId=" << pp.nodeId
+                        << ", classNode=" << pp.classNode
                         << "coordinates=(" << pp.coordinates.first
                         << ", " << pp.coordinates.second << ")" << std::endl;
 
@@ -97,7 +98,7 @@ inline void networkThread(VisualiserManager& manager) {
                         std::lock_guard<std::mutex> lock(deviceMutex);
                         // Update the device position
                         //TODO: adapt the magnitude in the simulator to the relative magnitude in the visualisator
-                        manager.devices.push_back(Device(pp.nodeId,pp.classNode, pp.coordinates));
+                        manager.devices.push_back(Device(pp.nodeId, pp.classNode, pp.coordinates));
                     }
 
                     std::string message = "Received positionPacket: nodeId=" + std::to_string(pp.nodeId) + ", coordinates=(" + std::to_string(pp.coordinates.first) + ", " + std::to_string(pp.coordinates.second) + ")";

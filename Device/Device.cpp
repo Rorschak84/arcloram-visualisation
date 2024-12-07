@@ -11,8 +11,10 @@ Device::Device(int nodeId,
 
         double radius=35.f;
         shape.setRadius(radius);
+
+        //TODO take into account the offset of the coordinates
         shape.setPosition(coordinates.first, coordinates.second);  
-        shape.setFillColor(sf::Color::White);
+        
 
 
         //depending of the class, we load the corresponding icon
@@ -21,18 +23,19 @@ Device::Device(int nodeId,
                 throw std::runtime_error("Failed to load icon texture for class 3·");
             }
             // Set up the sprite
-            icon.setTexture(iconTexture);
+            shape.setTexture(&iconTexture);
+            sf::FloatRect textureBounds(0, 0, iconTexture.getSize().x, iconTexture.getSize().y);
+            shape.setTextureRect(sf::IntRect(textureBounds));
+            // // Scale the icon to fit inside the button if needed
+            // float scaleX = (radius * 0.6f) / iconTexture.getSize().x;
+            // float scaleY = (radius * 0.6f) / iconTexture.getSize().y;
+            // icon.setScale(scaleX, scaleY);
 
-            // Scale the icon to fit inside the button if needed
-            float scaleX = (radius * 0.6f) / iconTexture.getSize().x;
-            float scaleY = (radius * 0.6f) / iconTexture.getSize().y;
-            icon.setScale(scaleX, scaleY);
-
-            // Center the icon inside the button
-            icon.setPosition(
-                coordinates.first + (radius - iconTexture.getSize().x * scaleX) / 2.f,
-                coordinates.second + (radius - iconTexture.getSize().y * scaleY) / 2.f
-            );
+            // // Center the icon inside the button
+            // icon.setPosition(
+            //     coordinates.first + (radius - iconTexture.getSize().x * scaleX) / 2.f,
+            //     coordinates.second + (radius - iconTexture.getSize().y * scaleY) / 2.f
+            // );
         }
         else if(classNode==2){
 
@@ -45,5 +48,4 @@ Device::Device(int nodeId,
 void Device::draw(sf::RenderWindow &window)
 {
     window.draw(shape);
-    window.draw(icon);   // Draw the icon
 }
