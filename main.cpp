@@ -21,6 +21,7 @@ int main() {
     
     VisualiserManager manager;
     // Create buttons
+    //TODO: get rid of useless elements
     std::unique_ptr<Button> button1 =std::make_unique <Button> (x1coor, y1coor, width1, height1, color1, state1, on, off, iconPath1);
     std::unique_ptr<Button> button2 =std::make_unique <Button> (x2coor, y2coor, width2, height2, color2, state2, on, off, iconPath2);
     std::unique_ptr<Button> button3 =std::make_unique <Button> (x3coor, y3coor, width3, height3, color3, state3, on, off, iconPath3);

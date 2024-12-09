@@ -30,6 +30,11 @@ void VisualiserManager::addButton(std::unique_ptr<Button> button) {
 	buttons.push_back(std::move(button));
 }
 
+void VisualiserManager::addDevice(std::unique_ptr<Device> device) {
+    devices.push_back(std::move(device));
+}
+
+
 void VisualiserManager::draw(sf::RenderWindow& window) {
     std::ostringstream displayText;
 
@@ -53,6 +58,6 @@ void VisualiserManager::draw(sf::RenderWindow& window) {
 
     //draw devices
     for (auto& device : devices) {
-        device.draw(window);
+        device->draw(window);
     }
 }

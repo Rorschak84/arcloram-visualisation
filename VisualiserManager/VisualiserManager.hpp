@@ -25,10 +25,11 @@ public:
     // Draw the text visualisation
     void draw(sf::RenderWindow& window);
     std::vector<std::unique_ptr<Button>> buttons; // List of buttons
-    std::vector<Device> devices; // List of devices (if used elsewhere)
+    std::vector<std::unique_ptr<Device>> devices; // List of devices (if used elsewhere)
 
 
     void addButton(std::unique_ptr<Button> button);
+    void addDevice(std::unique_ptr<Device> device);
 };
 
 #endif // VISUALISERMANAGER_HPP

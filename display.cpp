@@ -20,7 +20,7 @@ inline  void displayThread(VisualiserManager& manager) {
         isRunning = false;
         return;
     }
-
+    float y = 1000.0f;
 
 
     while (window.isOpen() && isRunning) {
@@ -49,10 +49,15 @@ inline  void displayThread(VisualiserManager& manager) {
         }
 
         // Draw visualiser manager
+        {
+        std::lock_guard<std::mutex> lockDevice(deviceMutex);
+
         manager.draw(window);
+        }
+
         {
         std::lock_guard<std::mutex> lock(logMutex);
-        float y = 1000.0f;
+        
 
         while (logMessages.size() > 10) {
             logMessages.erase(logMessages.begin());

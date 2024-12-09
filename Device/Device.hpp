@@ -1,3 +1,5 @@
+#pragma once
+
 #include <utility>
 #include <SFML/Graphics.hpp>
 
@@ -14,5 +16,8 @@ public:
     sf::Texture iconTexture;    // Texture for the icon
     std::string state;
 
+    // sf::RectangleShape shape;
+    // sf::Sprite icon;    // Icon inside the button
+    // sf::Texture iconTexture; // Texture for the icon
     void draw(sf::RenderWindow& window);
 };

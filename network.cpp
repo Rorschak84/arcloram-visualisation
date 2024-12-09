@@ -98,7 +98,8 @@ inline void networkThread(VisualiserManager& manager) {
                         std::lock_guard<std::mutex> lock(deviceMutex);
                         // Update the device position
                         //TODO: adapt the magnitude in the simulator to the relative magnitude in the visualisator
-                        manager.devices.push_back(Device(pp.nodeId, pp.classNode, pp.coordinates));
+                        std::unique_ptr<Device> device = std::make_unique<Device>(pp.nodeId, pp.classNode, pp.coordinates);
+                        manager.addDevice(std::move(device));
                     }
 
                     std::string message = "Received positionPacket: nodeId=" + std::to_string(pp.nodeId) + ", coordinates=(" + std::to_string(pp.coordinates.first) + ", " + std::to_string(pp.coordinates.second) + ")";
