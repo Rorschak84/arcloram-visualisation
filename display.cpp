@@ -29,6 +29,7 @@ inline  void displayThread(VisualiserManager& manager) {
             if (event.type == sf::Event::Closed) {
                 isRunning = false;
                 window.close();
+                
             }
 
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Q) {

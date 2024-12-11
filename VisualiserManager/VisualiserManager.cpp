@@ -69,10 +69,9 @@ void VisualiserManager::draw(sf::RenderWindow& window) {
     for(auto& arrow : arrows){
         arrow->update();
     }
-    
     //remove finished arrows
     arrows.erase(std::remove_if(arrows.begin(), arrows.end(), [](const std::unique_ptr<Arrow>& arrow) {
-        return arrow->isFinished();
+        return (arrow->isFinished()&&arrow->isReceptionFinished());
     }), arrows.end());
 
     for(auto& arrow : arrows){

@@ -2,6 +2,7 @@
 #define ARROW_HPP
 
 #include <SFML/Graphics.hpp>
+#include <string>
 
 class Arrow {
 private:
@@ -13,15 +14,29 @@ private:
     float duration;      // Total animation time
     sf::Clock clock;     // Clock to track animation time
 
-    int SenderId;       //used to display the reception State of the message.
+    int SenderId;       // Used to display the reception state of the message
     int ReceiverId;
+    std::string receptionState; 
+
+    sf::Sprite icon;  // Sprite for the reception state icon
+    sf::Texture interferenceTexture;
+    sf::Texture notListeningTexture;
+    sf::Texture receivedTexture;
+
+    sf::Clock receptionClock;  // Clock for the reception icon duration
+    float receptionDuration;   // Duration to display the reception icon
+
+    bool receptionComplete;    // Flag to check if the reception is complete
 
     // Helper to calculate angle for the arrowhead
     float calculateAngle(const sf::Vector2f& p1, const sf::Vector2f& p2) const;
 
 public:
     // Constructor
-    Arrow(const sf::Vector2f& start, const sf::Vector2f& end, float duration,int senderId, int receiverId);
+    Arrow(const sf::Vector2f& start, const sf::Vector2f& end, float duration, int senderId, int receiverId);
+
+    // Load textures for state icons
+    bool loadTextures(const std::string& interferencePath, const std::string& notListeningPath, const std::string& receivedPath);
 
     // Update the arrow animation
     void update();
@@ -32,8 +47,14 @@ public:
     // Check if the animation is finished
     bool isFinished() const;
 
+    // Check if the reception icon duration has completed
+    bool isReceptionFinished() const;
+
     // Restart the animation
     void restart();
+
+    // Set the duration for the reception icon display
+    void setReceptionDuration(float duration);
 };
 
 #endif // ARROW_HPP
