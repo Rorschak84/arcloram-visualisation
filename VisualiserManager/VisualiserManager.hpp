@@ -32,7 +32,8 @@ public:
     void addButton(std::unique_ptr<Button> button);
     void addDevice(std::unique_ptr<Device> device);
     void addArrow(std::unique_ptr<Arrow> arrow);
-    
+
+    void changeArrowState(int senderId, int receiverId, std::string state);
 };
 
 #endif // VISUALISERMANAGER_HPP

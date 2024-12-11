@@ -182,6 +182,13 @@ inline void networkThread(VisualiserManager& manager) {
                         std::lock_guard<std::mutex> lock(logMutex);
                         logMessages.push_back(message);
                     }
+                    {
+                        std::lock_guard<std::mutex> lock(deviceMutex);
+                        // Update the arrow reception State
+                        manager.changeArrowState(rmp.senderId, rmp.receiverId, rmp.state);
+
+                    }
+
                     break;
                 }
                 case 6:{

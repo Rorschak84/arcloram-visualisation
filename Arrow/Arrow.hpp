@@ -14,9 +14,7 @@ private:
     float duration;      // Total animation time
     sf::Clock clock;     // Clock to track animation time
 
-    int SenderId;       // Used to display the reception state of the message
-    int ReceiverId;
-    std::string receptionState; 
+   
 
     sf::Sprite icon;  // Sprite for the reception state icon
     sf::Texture interferenceTexture;
@@ -32,6 +30,12 @@ private:
     float calculateAngle(const sf::Vector2f& p1, const sf::Vector2f& p2) const;
 
 public:
+
+    int SenderId;       // Used to display the reception state of the message
+    int ReceiverId;
+    std::string receptionState; 
+
+
     // Constructor
     Arrow(const sf::Vector2f& start, const sf::Vector2f& end, float duration, int senderId, int receiverId);
 

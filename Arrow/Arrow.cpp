@@ -14,6 +14,7 @@ Arrow::Arrow(const sf::Vector2f& start, const sf::Vector2f& end, float duration,
 
     loadTextures("assets/Reception/interference.png", "assets/Reception/notListening.png", "assets/Reception/allGood.png");
     receptionState = "received"; // Default reception state
+    
 }
 
 // Load textures for the reception state icons

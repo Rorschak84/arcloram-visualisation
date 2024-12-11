@@ -39,6 +39,18 @@ void VisualiserManager::addArrow(std::unique_ptr<Arrow> arrow)
     arrows.push_back(std::move(arrow));
 }
 
+void VisualiserManager::changeArrowState(int senderId, int receiverId, std::string state)
+{
+    if(state!="interference"&&state!="notListening"&&state!="received"){
+        throw std::runtime_error("Error: state not recognized");
+    }
+    for(auto& arrow : arrows){
+        if(arrow->SenderId==senderId && arrow->ReceiverId==receiverId){
+            arrow->receptionState=state;
+        }
+    }
+}
+
 void VisualiserManager::draw(sf::RenderWindow& window) {
     std::ostringstream displayText;
 
