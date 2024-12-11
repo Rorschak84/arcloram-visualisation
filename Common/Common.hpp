@@ -61,11 +61,11 @@ extern const sf::Color color4;
 extern std::string state4;
 extern const std::string iconPath4;
 
-////x,y width, height, color, state, on, off
-//extern Button button1;
-//extern Button button2;
-//extern Button button3;
-//extern Button button4;
-//extern VisualiserManager visualiserManager;
 
+
+//Animations
+inline // Helper function to convert std::pair<int, int> to sf::Vector2f
+sf::Vector2f pairToVector2f(const std::pair<int, int>& pair) {
+    return sf::Vector2f(static_cast<float>(pair.first), static_cast<float>(pair.second));
+}
 

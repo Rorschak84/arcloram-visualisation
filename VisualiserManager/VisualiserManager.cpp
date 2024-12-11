@@ -34,6 +34,10 @@ void VisualiserManager::addDevice(std::unique_ptr<Device> device) {
     devices.push_back(std::move(device));
 }
 
+void VisualiserManager::addArrow(std::unique_ptr<Arrow> arrow)
+{
+    arrows.push_back(std::move(arrow));
+}
 
 void VisualiserManager::draw(sf::RenderWindow& window) {
     std::ostringstream displayText;
@@ -59,5 +63,19 @@ void VisualiserManager::draw(sf::RenderWindow& window) {
     //draw devices
     for (auto& device : devices) {
         device->draw(window);
+    }
+
+    //Draw transmission animation
+    for(auto& arrow : arrows){
+        arrow->update();
+    }
+    
+    //remove finished arrows
+    arrows.erase(std::remove_if(arrows.begin(), arrows.end(), [](const std::unique_ptr<Arrow>& arrow) {
+        return arrow->isFinished();
+    }), arrows.end());
+
+    for(auto& arrow : arrows){
+        arrow->draw(window);
     }
 }

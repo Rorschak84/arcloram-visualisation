@@ -20,4 +20,5 @@ public:
     // sf::Sprite icon;    // Icon inside the button
     // sf::Texture iconTexture; // Texture for the icon
     void draw(sf::RenderWindow& window);
+    void changePNG(std::string state);
 };
