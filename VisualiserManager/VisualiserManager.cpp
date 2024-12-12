@@ -4,9 +4,11 @@
 #include "VisualiserManager.hpp"
 #include <stdexcept>
 #include <sstream>
+#include <iostream>
+
 
 VisualiserManager::VisualiserManager()
-     {
+{
     if (!font.loadFromFile("assets/arial.ttf")) {
         throw std::runtime_error("Failed to load font");
     }
@@ -57,6 +59,33 @@ void VisualiserManager::startBroadcast(const sf::Vector2f &startPosition, float 
 
 }
 
+void VisualiserManager::addDeviceId(int id)
+{
+    if (devicesId.emplace(id).second) {
+            routings[id] = {};
+        } else {
+            std::cout << "********Device " << id << " already exists********.\n";
+        }
+}
+
+void VisualiserManager::addRouting(int id1, int id2)
+{
+    if (devicesId.count(id1) && devicesId.count(id2)) {
+            routings[id1].insert(id2);  // Only store id2 in id1's adjacency list       
+        } else {
+            std::cout << "********One or both devices do not exist.********\n";
+    }
+}
+
+void VisualiserManager::removeRouting(int id1, int id2)
+{
+    if (devicesId.count(id1) && devicesId.count(id2)) {
+            routings[id1].erase(id2);
+        }else {
+            std::cout << "********One or both devices do not exist.********\n";
+        }
+}
+
 void VisualiserManager::update()
 {
     // Update all broadcast animations
@@ -105,7 +134,8 @@ void VisualiserManager::draw(sf::RenderWindow& window) {
 
 
 
-    
+    drawRootings(window);
+
     for (auto& device : devices) {
         device->draw(window);
     }
@@ -117,6 +147,43 @@ void VisualiserManager::draw(sf::RenderWindow& window) {
         animation->draw(window);
     }
 
+
+}
+
+
+void VisualiserManager::drawRootings(sf::RenderWindow& window)
+{
+    for (const auto& [device, connectedDevices] : routings) {
+            
+            for (const auto& connectedDevice : connectedDevices) {
+                //get start position and end position
+                sf::Vector2f start;
+                sf::Vector2f end;
+                bool foundPos=false;
+                for(auto& device1 : devices){
+                    if(device1->nodeId==device){
+                         start=device1->shape.getPosition();
+                         //center the start position
+                         start.x+=radiusIcon;
+                            start.y+=radiusIcon;
+                        //get end position
+                        for(auto& device2 : devices){
+                            if(device2->nodeId==connectedDevice){
+                                 end=device2->shape.getPosition();
+                                 //center the end position
+                                 end.x+=radiusIcon;
+                                    end.y+=radiusIcon;
+                                 foundPos=true;
+                            }
+                        }
+                    }
+                }
+
+                if(foundPos){
+                    drawArrowWithHeads(window, start, end, 35.f);
+                }
+            }
+        }
 
 }
 

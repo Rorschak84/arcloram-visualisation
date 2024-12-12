@@ -10,7 +10,7 @@ int TICK_NB = 0;
 float DISTANCE_THRESHOLD = 0.0f;
 float broadcastDuration = 1.3f;
 float arrowDuration = 1.0f;
-
+double radiusIcon=40.0f;
 std::mutex deviceMutex;
 
 //General DATA:

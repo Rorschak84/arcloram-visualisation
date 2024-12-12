@@ -110,6 +110,8 @@ inline void networkThread(VisualiserManager& manager) {
                         //TODO: adapt the magnitude in the simulator to the relative magnitude in the visualisator
                         std::unique_ptr<Device> device = std::make_unique<Device>(pp.nodeId, pp.classNode, pp.coordinates);
                         manager.addDevice(std::move(device));
+                        //for routing
+                        manager.addDeviceId(pp.nodeId);
                     }
 
                     std::string message = "Received positionPacket: nodeId=" + std::to_string(pp.nodeId) + ", coordinates=(" + std::to_string(pp.coordinates.first) + ", " + std::to_string(pp.coordinates.second) + ")";
@@ -155,7 +157,7 @@ inline void networkThread(VisualiserManager& manager) {
                                 std::lock_guard<std::mutex> lock(logMutex);
                                 logMessages.push_back("******Error: Receiver or Sender Not Found for Transmission Animation******");
                             } 
-                            std::cout<<"******Error: Receiver or Sender Not Found for Transmission Animation******";
+                            std::cout<<"******Error: Receiver or Sender Not Found for Transmission Animation******\n";
                             
                         }
                         else{
@@ -203,6 +205,17 @@ inline void networkThread(VisualiserManager& manager) {
                         std::lock_guard<std::mutex> lock(logMutex);
                         logMessages.push_back(message);
                     }
+
+                    {
+                        std::lock_guard<std::mutex> lock(deviceMutex);
+                        if(rp.newRoute){
+                            manager.addRouting(rp.receiverId, rp.senderId);
+                        }
+                        else{
+                            manager.removeRouting(rp.receiverId, rp.senderId);
+                        }
+                    }
+                    
                     break;
                 }
                 case 7: {
@@ -231,7 +244,8 @@ inline void networkThread(VisualiserManager& manager) {
                                 std::lock_guard<std::mutex> lock(logMutex);
                                 logMessages.push_back("******Error: Sender Not Found for Broadcast Animation******");
                             } 
-                          
+                            std::cout<<"******Error: Sender Not Found for Broadcast Animation******\n";
+
                         }
                         else{
                             manager.startBroadcast(senderCoordinates, broadcastDuration);

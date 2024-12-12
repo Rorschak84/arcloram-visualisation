@@ -4,14 +4,15 @@
 
 #include "Device.hpp"
 #include <iostream>
+#include "../Common/Common.hpp"
 
 Device::Device(int nodeId,
     int classNode, std::pair<int, int> coordinates):
     nodeId(nodeId), classNode(classNode), coordinates(coordinates) {
 
-        double radius=40.f;
+       
 
-        shape= sf::CircleShape (radius);
+        shape= sf::CircleShape (radiusIcon);
         iconTexture= sf::Texture();
 
         state="Sleep";
@@ -23,8 +24,8 @@ Device::Device(int nodeId,
             }            
             shape.setTexture(&iconTexture);
             shape.setPosition(
-                coordinates.first- radius ,
-                coordinates.second- radius
+                coordinates.first- radiusIcon ,
+                coordinates.second- radiusIcon
             );
 
         }
@@ -34,8 +35,8 @@ Device::Device(int nodeId,
             }            
             shape.setTexture(&iconTexture);
             shape.setPosition(
-                coordinates.first- radius ,
-                coordinates.second- radius
+                coordinates.first- radiusIcon ,
+                coordinates.second- radiusIcon
             );
         }
         else{

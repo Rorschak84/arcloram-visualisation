@@ -10,7 +10,8 @@
 #include "../Common/Common.hpp"
 #include "../Arrow/Arrow.hpp"
 #include "../BroadcastAnimation/BroadcastAnimation.hpp"
-
+#include <unordered_map>
+#include <unordered_set>
 
 
 
@@ -25,6 +26,11 @@ private:
 
     std::vector<std::unique_ptr<BroadcastAnimation>> broadcastAnimations; // List of active broadcast animations
 
+
+    //Routing
+    std::unordered_set<int> devicesId; // Stores unique devices ID
+    std::unordered_map<int, std::unordered_set<int>> routings; // Oriented Graph ! 2->4 is not equl to 4->2
+    void drawRootings(sf::RenderWindow& window);
 
 public:
     VisualiserManager();
@@ -43,6 +49,13 @@ public:
 
       // Animations
     void startBroadcast(const sf::Vector2f& startPosition, float duration);
+
+    //Routing:
+    void addDeviceId(int id);
+    void addRouting(int id1, int id2);
+    void removeRouting(int id1, int id2);
+
+
 };
 
 #endif // VISUALISERMANAGER_HPP
