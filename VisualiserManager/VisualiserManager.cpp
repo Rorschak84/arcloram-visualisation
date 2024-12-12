@@ -70,6 +70,8 @@ void VisualiserManager::addDeviceId(int id)
 
 void VisualiserManager::addRouting(int id1, int id2)
 {
+    // ID1 ---> ID2 , path towards ID2
+
     if (devicesId.count(id1) && devicesId.count(id2)) {
             routings[id1].insert(id2);  // Only store id2 in id1's adjacency list       
         } else {

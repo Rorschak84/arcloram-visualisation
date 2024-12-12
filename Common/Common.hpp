@@ -27,6 +27,10 @@ extern std::mutex deviceMutex;
 
 extern double radiusIcon;
 
+//so everything fits in the screen available to the eyes of the user
+extern int verticalOffset;
+extern int horizontalOffset;
+extern float distanceDivider;
 
 //General DATA:
 extern  const int windowWidth;

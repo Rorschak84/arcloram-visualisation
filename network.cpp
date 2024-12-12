@@ -50,7 +50,7 @@ inline void networkThread(VisualiserManager& manager) {
                     std::cout << "Received systemPacket: "
                         << "distanceThreshold=" << sp.distanceThreshold
                         << ", mode=" << sp.mode << std::endl;
-                    DISTANCE_THRESHOLD = sp.distanceThreshold;
+                    DISTANCE_THRESHOLD = sp.distanceThreshold*distanceDivider;
                     COMMUNICATION_MODE = sp.mode;
                     std::string message = "Received systemPacket: distanceThreshold=" + std::to_string(sp.distanceThreshold) + ", mode=" + sp.mode;
                     {
@@ -98,6 +98,12 @@ inline void networkThread(VisualiserManager& manager) {
                 case 3: {
                     positionPacket pp;
                     packet >>pp.nodeId>> pp.classNode>> pp.coordinates.first>> pp.coordinates.second; // Deserialize the positionPacket
+                    //make the coordinates received adapted for the screen available to the user
+                    pp.coordinates.first+=horizontalOffset;
+                    pp.coordinates.second+=verticalOffset;
+                    pp.coordinates.first*=distanceDivider;
+                    pp.coordinates.second*=distanceDivider;
+
                     std::cout << "Received positionPacket: "
                         << "nodeId=" << pp.nodeId
                         << ", classNode=" << pp.classNode
@@ -108,6 +114,7 @@ inline void networkThread(VisualiserManager& manager) {
                         std::lock_guard<std::mutex> lock(deviceMutex);
                         // Update the device position
                         //TODO: adapt the magnitude in the simulator to the relative magnitude in the visualisator
+
                         std::unique_ptr<Device> device = std::make_unique<Device>(pp.nodeId, pp.classNode, pp.coordinates);
                         manager.addDevice(std::move(device));
                         //for routing
@@ -209,13 +216,13 @@ inline void networkThread(VisualiserManager& manager) {
                     {
                         std::lock_guard<std::mutex> lock(deviceMutex);
                         if(rp.newRoute){
-                            manager.addRouting(rp.receiverId, rp.senderId);
+                            manager.addRouting( rp.receiverId,rp.senderId);
                         }
                         else{
-                            manager.removeRouting(rp.receiverId, rp.senderId);
+                            manager.removeRouting(rp.receiverId,rp.senderId);
                         }
                     }
-                    
+
                     break;
                 }
                 case 7: {
