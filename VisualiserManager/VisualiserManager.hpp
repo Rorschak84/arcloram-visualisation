@@ -9,6 +9,8 @@
 #include "../Button/Button.hpp"
 #include "../Common/Common.hpp"
 #include "../Arrow/Arrow.hpp"
+#include "../BroadcastAnimation/BroadcastAnimation.hpp"
+
 
 
 
@@ -21,9 +23,12 @@ private:
     sf::Text communicationMode;
     sf::Text tickNb;
 
+    std::vector<std::unique_ptr<BroadcastAnimation>> broadcastAnimations; // List of active broadcast animations
+
+
 public:
     VisualiserManager();
-    // Draw the text visualisation
+    void update();
     void draw(sf::RenderWindow& window);
     std::vector<std::unique_ptr<Button>> buttons; // List of buttons
     std::vector<std::unique_ptr<Device>> devices; // List of devices (if used elsewhere)
@@ -34,6 +39,10 @@ public:
     void addArrow(std::unique_ptr<Arrow> arrow);
 
     void changeArrowState(int senderId, int receiverId, std::string state);
+
+
+      // Animations
+    void startBroadcast(const sf::Vector2f& startPosition, float duration);
 };
 
 #endif // VISUALISERMANAGER_HPP

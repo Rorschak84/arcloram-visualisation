@@ -51,6 +51,39 @@ void VisualiserManager::changeArrowState(int senderId, int receiverId, std::stri
     }
 }
 
+void VisualiserManager::startBroadcast(const sf::Vector2f &startPosition, float duration)
+{
+        broadcastAnimations.push_back(std::make_unique<BroadcastAnimation>(startPosition, duration));
+
+}
+
+void VisualiserManager::update()
+{
+    // Update all broadcast animations
+    for (auto& animation : broadcastAnimations) {
+        animation->update();
+    }
+
+    //remove finished broadcast animations
+    broadcastAnimations.erase(std::remove_if(broadcastAnimations.begin(), broadcastAnimations.end(),
+        [](const std::unique_ptr<BroadcastAnimation>& animation) {
+            return animation->isFinished();
+        }),
+        broadcastAnimations.end());
+
+
+    //Update transmission animation
+    for(auto& arrow : arrows){
+        arrow->update();
+    }
+
+    //remove finished arrows
+    arrows.erase(std::remove_if(arrows.begin(), arrows.end(), [](const std::unique_ptr<Arrow>& arrow) {
+        return (arrow->isFinished()&&arrow->isReceptionFinished());
+    }), arrows.end());
+
+
+}
 void VisualiserManager::draw(sf::RenderWindow& window) {
     std::ostringstream displayText;
 
@@ -72,21 +105,19 @@ void VisualiserManager::draw(sf::RenderWindow& window) {
 
 
 
-    //draw devices
+    
     for (auto& device : devices) {
         device->draw(window);
     }
 
-    //Draw transmission animation
-    for(auto& arrow : arrows){
-        arrow->update();
-    }
-    //remove finished arrows
-    arrows.erase(std::remove_if(arrows.begin(), arrows.end(), [](const std::unique_ptr<Arrow>& arrow) {
-        return (arrow->isFinished()&&arrow->isReceptionFinished());
-    }), arrows.end());
-
     for(auto& arrow : arrows){
         arrow->draw(window);
     }
+    for(auto& animation : broadcastAnimations){
+        animation->draw(window);
+    }
+
+
 }
+
+

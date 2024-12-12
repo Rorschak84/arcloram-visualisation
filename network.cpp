@@ -215,6 +215,29 @@ inline void networkThread(VisualiserManager& manager) {
                         std::lock_guard<std::mutex> lock(logMutex);
                         logMessages.push_back(message);
                     }
+                    {
+                        std::lock_guard<std::mutex> lock(deviceMutex);
+                        // Start a broadcast animation
+                        sf::Vector2f senderCoordinates;
+                        bool foundSender = false;
+                        for(auto& device : manager.devices){
+                            if(device->nodeId == bmp.nodeId){
+                                senderCoordinates =pairToVector2f( device->coordinates);
+                                foundSender = true;
+                            }
+                        }   
+                        if(!foundSender){
+                            {
+                                std::lock_guard<std::mutex> lock(logMutex);
+                                logMessages.push_back("******Error: Sender Not Found for Broadcast Animation******");
+                            } 
+                          
+                        }
+                        else{
+                            manager.startBroadcast(senderCoordinates, broadcastDuration);
+                        }
+
+                    }
                     break;
                 }
                 default:

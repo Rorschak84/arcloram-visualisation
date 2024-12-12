@@ -7,7 +7,9 @@ std::mutex logMutex;                  // Mutex to protect the container
 bool isRunning = true;                // Flag to signal threads to stop
 std::string COMMUNICATION_MODE = "None";
 int TICK_NB = 0;
-double DISTANCE_THRESHOLD = 0.0;
+float DISTANCE_THRESHOLD = 0.0f;
+float broadcastDuration = 1.3f;
+float arrowDuration = 1.0f;
 
 std::mutex deviceMutex;
 
@@ -50,5 +52,6 @@ const float height4 = 40;
 const sf::Color color4 = sf::Color::Yellow;
 std::string state4 = off;
 const std::string iconPath4 = "assets/Icons/routing.png";
+
 
 

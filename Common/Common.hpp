@@ -16,7 +16,12 @@ extern bool isRunning;                // Flag to signal threads to stop
 
 extern std::string COMMUNICATION_MODE;
 extern int TICK_NB; 
-extern double DISTANCE_THRESHOLD;
+
+extern float DISTANCE_THRESHOLD;
+extern float broadcastDuration;
+
+extern float arrowDuration;
+
 extern std::mutex deviceMutex;
 
 
@@ -68,4 +73,6 @@ inline // Helper function to convert std::pair<int, int> to sf::Vector2f
 sf::Vector2f pairToVector2f(const std::pair<int, int>& pair) {
     return sf::Vector2f(static_cast<float>(pair.first), static_cast<float>(pair.second));
 }
+
+
 

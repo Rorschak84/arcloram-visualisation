@@ -20,7 +20,6 @@ inline  void displayThread(VisualiserManager& manager) {
         isRunning = false;
         return;
     }
-    float y = 1000.0f;
 
 
     while (window.isOpen() && isRunning) {
@@ -44,27 +43,28 @@ inline  void displayThread(VisualiserManager& manager) {
         }
 
         window.clear(sf::Color::Black);
-        // Handle button clicks
-        for (auto& button : manager.buttons) {
-            button->draw( window);
-        }
+
 
         // Draw visualiser manager
         {
         std::lock_guard<std::mutex> lockDevice(deviceMutex);
-
+        manager.update();
         manager.draw(window);
+        }
+
+        for (auto& button : manager.buttons) {
+            button->draw( window);
         }
 
         {
         std::lock_guard<std::mutex> lock(logMutex);
         
-
+        float y = 1000.0f;
         while (logMessages.size() > 10) {
             logMessages.erase(logMessages.begin());
         }
-        for (const auto& log : logMessages) {
-            sf::Text text(log, font, 20);
+        for (auto it = logMessages.rbegin(); it != logMessages.rend(); ++it) {
+            sf::Text text(*it, font, 20);
             text.setFillColor(sf::Color::White);
             text.setPosition(10.0f, y);
             window.draw(text);
