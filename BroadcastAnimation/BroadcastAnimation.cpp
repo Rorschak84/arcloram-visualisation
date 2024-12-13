@@ -10,6 +10,19 @@ BroadcastAnimation::BroadcastAnimation(const sf::Vector2f& startPosition, float 
     circle.setRadius(0.f); // Start with zero radius
     circle.setOrigin(0.f, 0.f); // No size, no origin adjustment needed yet
     circle.setPosition(startPosition);
+
+    loadTextures("assets/Reception/interference.png", "assets/Reception/notListening.png", "assets/Reception/allGood.png");
+
+}
+
+bool BroadcastAnimation::loadTextures(const std::string& interferencePath, const std::string& notListeningPath, const std::string& receivedPath) {
+    if (!interferenceTexture.loadFromFile(interferencePath) ||
+        !notListeningTexture.loadFromFile(notListeningPath) ||
+        !receivedTexture.loadFromFile(receivedPath)) {
+        throw std::runtime_error("Failed to load icon texture for receptionMsg");
+        return false; // Return false if any texture fails to load
+    }
+    return true;
 }
 
 void BroadcastAnimation::update() {
@@ -17,6 +30,12 @@ void BroadcastAnimation::update() {
     float elapsedTime = clock.getElapsedTime().asSeconds();
     float progress = elapsedTime / duration;
 
+    //animation goes fast in the beginning, and then slows down
+    if(progress < 0.3f){
+        
+    }
+
+    progress*=3; //speed up the animation
     if (progress > 1.0f) {
         progress = 1.0f; // Clamp progress to 1.0
     }

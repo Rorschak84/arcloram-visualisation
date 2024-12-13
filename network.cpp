@@ -62,26 +62,26 @@ inline void networkThread(VisualiserManager& manager) {
                 case 1: {
                     tickPacket tp;
                     packet >> tp.tickNb; // Deserialize the systemPacket
-                    std::cout << "Received tickPacket: "
-                        << "tickNumber=" << tp.tickNb << std::endl;
+                    // std::cout << "Received tickPacket: "
+                    //     << "tickNumber=" << tp.tickNb << std::endl;
                     TICK_NB = tp.tickNb;
                     std::string message = "Received tickPacket: tickNumber=" + std::to_string(tp.tickNb);
                     {
-                        std::lock_guard<std::mutex> lock(logMutex);
-                        logMessages.push_back(message);
+                       // std::lock_guard<std::mutex> lock(logMutex);
+                       // logMessages.push_back(message);
                     }
                     break;
                 }
                 case 2: {
                     stateNodePacket snp;
                     packet >> snp.nodeId >> snp.state; // Deserialize the stateNodePacket
-                    std::cout << "Received stateNodePacket: "
-                        << "nodeId=" << snp.nodeId
-                        << ", state=" << snp.state << std::endl;
+                    // std::cout << "Received stateNodePacket: "
+                    //     << "nodeId=" << snp.nodeId
+                    //     << ", state=" << snp.state << std::endl;
                     std::string message = "Received stateNodePacket: nodeId=" + std::to_string(snp.nodeId) + ", state=" + snp.state;
                     {
-                        std::lock_guard<std::mutex> lock(logMutex);
-                        logMessages.push_back(message);
+                        //std::lock_guard<std::mutex> lock(logMutex);
+                        //logMessages.push_back(message);
                     }
                     {
                         std::lock_guard<std::mutex> lock(deviceMutex);
@@ -193,6 +193,14 @@ inline void networkThread(VisualiserManager& manager) {
                     }
                     {
                         std::lock_guard<std::mutex> lock(deviceMutex);
+
+                        if(COMMUNICATION_MODE=="RRC_Beacon"||COMMUNICATION_MODE=="RRC_Downlink"){
+                            //only broadcast are sent
+                            
+
+                        }
+
+
                         // Update the arrow reception State
                         manager.changeArrowState(rmp.senderId, rmp.receiverId, rmp.state);
 
@@ -217,6 +225,9 @@ inline void networkThread(VisualiserManager& manager) {
                         std::lock_guard<std::mutex> lock(deviceMutex);
                         if(rp.newRoute){
                             manager.addRouting( rp.receiverId,rp.senderId);
+                            //small delay so it looks like the routing is being done upon receiving broadcast
+                           // std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
                         }
                         else{
                             manager.removeRouting(rp.receiverId,rp.senderId);
