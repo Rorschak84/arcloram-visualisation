@@ -22,6 +22,7 @@ extern float DISTANCE_THRESHOLD;
 extern float broadcastDuration;
 
 extern float arrowDuration;
+extern float receptionDuration;
 
 extern std::mutex deviceMutex;
 

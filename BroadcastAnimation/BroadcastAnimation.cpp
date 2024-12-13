@@ -11,10 +11,12 @@ BroadcastAnimation::BroadcastAnimation(const sf::Vector2f& startPosition, float 
     circle.setOrigin(0.f, 0.f); // No size, no origin adjustment needed yet
     circle.setPosition(startPosition);
 
-    loadTextures("assets/Reception/interference.png", "assets/Reception/notListening.png", "assets/Reception/allGood.png");
+    loadTextures("assets/Reception/notListening.png", "assets/Reception/notListening.png", "assets/Reception/allGood.png");
 
 }
 
+
+//TODO remove?
 bool BroadcastAnimation::loadTextures(const std::string& interferencePath, const std::string& notListeningPath, const std::string& receivedPath) {
     if (!interferenceTexture.loadFromFile(interferencePath) ||
         !notListeningTexture.loadFromFile(notListeningPath) ||
@@ -30,10 +32,7 @@ void BroadcastAnimation::update() {
     float elapsedTime = clock.getElapsedTime().asSeconds();
     float progress = elapsedTime / duration;
 
-    //animation goes fast in the beginning, and then slows down
-    if(progress < 0.3f){
-        
-    }
+
 
     progress*=3; //speed up the animation
     if (progress > 1.0f) {

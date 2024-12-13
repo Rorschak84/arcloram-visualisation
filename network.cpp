@@ -195,14 +195,44 @@ inline void networkThread(VisualiserManager& manager) {
                         std::lock_guard<std::mutex> lock(deviceMutex);
 
                         if(COMMUNICATION_MODE=="RRC_Beacon"||COMMUNICATION_MODE=="RRC_Downlink"){
-                            //only broadcast are sent
-                            
+                            //get the location of the sender and receiver
+                            sf::Vector2f senderPos;
+                            sf::Vector2f receiverPos;
+                            bool foundSender=false;
+                            bool foundReceiver=false;
+
+                            //should be a function TODO
+                        for(auto& device : manager.devices){
+                            if(device->nodeId == rmp.senderId){
+                                senderPos =pairToVector2f( device->coordinates);
+                                foundSender=true;
+                            }
+                            if(device->nodeId == rmp.receiverId){
+                                receiverPos =pairToVector2f( device->coordinates);
+                                foundReceiver = true;
+                            }
+                        }
+                        if(!foundReceiver||!foundSender){
+                                    {
+                                std::lock_guard<std::mutex> lock(logMutex);
+                                logMessages.push_back("******Error: Receiver or Sender Not Found for Transmission Animation******");
+                            } 
+                            std::cout<<"******Error: Receiver or Sender Not Found for Transmission Animation******\n";
+                                     
+                        }else{
+                            std::unique_ptr<ReceptionIcon> icon = std::make_unique<ReceptionIcon>(senderPos,receiverPos,rmp.state);
+                            manager.addReceptionIcon(std::move(icon));
+                        }
+
+                            //create the receptionIcon and add it to the manager
+
+                        }
+                        else{
+                            //we are in mesh Mode
+                            manager.changeArrowState(rmp.senderId, rmp.receiverId, rmp.state);
 
                         }
 
-
-                        // Update the arrow reception State
-                        manager.changeArrowState(rmp.senderId, rmp.receiverId, rmp.state);
 
                     }
 

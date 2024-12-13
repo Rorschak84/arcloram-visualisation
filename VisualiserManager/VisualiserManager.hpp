@@ -12,6 +12,7 @@
 #include "../BroadcastAnimation/BroadcastAnimation.hpp"
 #include <unordered_map>
 #include <unordered_set>
+#include "../ReceptionIcon/ReceptionIcon.hpp"
 
 
 
@@ -25,7 +26,7 @@ private:
     sf::Text tickNb;
 
     std::vector<std::unique_ptr<BroadcastAnimation>> broadcastAnimations; // List of active broadcast animations
-
+    std::vector<std::unique_ptr<ReceptionIcon>> receptionIcons; // List of active reception icons  
 
     //Routing
     std::unordered_set<int> devicesId; // Stores unique devices ID
@@ -40,9 +41,11 @@ public:
     std::vector<std::unique_ptr<Device>> devices; // List of devices (if used elsewhere)
     std::vector<std::unique_ptr<Arrow>> arrows; // List of arrows
 
+
     void addButton(std::unique_ptr<Button> button);
     void addDevice(std::unique_ptr<Device> device);
     void addArrow(std::unique_ptr<Arrow> arrow);
+    void addReceptionIcon(std::unique_ptr<ReceptionIcon> receptionIcon);
 
     void changeArrowState(int senderId, int receiverId, std::string state);
 
@@ -54,6 +57,8 @@ public:
     void addDeviceId(int id);
     void addRouting(int id1, int id2);
     void removeRouting(int id1, int id2);
+
+    
 
 
 };

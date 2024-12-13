@@ -41,6 +41,11 @@ void VisualiserManager::addArrow(std::unique_ptr<Arrow> arrow)
     arrows.push_back(std::move(arrow));
 }
 
+void VisualiserManager::addReceptionIcon(std::unique_ptr<ReceptionIcon> receptionIcon)
+{
+    receptionIcons.push_back(std::move(receptionIcon));
+}
+
 void VisualiserManager::changeArrowState(int senderId, int receiverId, std::string state)
 {
     if(state!="interference"&&state!="notListening"&&state!="received"){
@@ -113,6 +118,10 @@ void VisualiserManager::update()
         return (arrow->isFinished()&&arrow->isReceptionFinished());
     }), arrows.end());
 
+    //remove finished receptionIcons
+    receptionIcons.erase(std::remove_if(receptionIcons.begin(), receptionIcons.end(), [](const std::unique_ptr<ReceptionIcon>& icon) {
+        return (icon->isFinished());
+    }), receptionIcons.end());
 
 }
 void VisualiserManager::draw(sf::RenderWindow& window) {
@@ -148,7 +157,9 @@ void VisualiserManager::draw(sf::RenderWindow& window) {
     for(auto& animation : broadcastAnimations){
         animation->draw(window);
     }
-
+    for(auto& recepIcon :receptionIcons){
+        recepIcon->draw(window);
+    }
 
 }
 
