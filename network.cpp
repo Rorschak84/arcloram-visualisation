@@ -168,8 +168,8 @@ inline void networkThread(VisualiserManager& manager) {
                             
                         }
                         else{
-                            float duration =2.0f;
-                            std::unique_ptr<Arrow> arrow = std::make_unique<Arrow>(senderCoordinates,receiverCoordinates,duration, tmp.senderId,tmp.receiverId);
+                            
+                            std::unique_ptr<Arrow> arrow = std::make_unique<Arrow>(senderCoordinates,receiverCoordinates, tmp.senderId,tmp.receiverId);
                             manager.addArrow(std::move(arrow));
                         }
 
@@ -194,7 +194,7 @@ inline void networkThread(VisualiserManager& manager) {
                     {
                         std::lock_guard<std::mutex> lock(deviceMutex);
 
-                        if(COMMUNICATION_MODE=="RRC_Beacon"||COMMUNICATION_MODE=="RRC_Downlink"){
+                        // if(COMMUNICATION_MODE=="RRC_Beacon"||COMMUNICATION_MODE=="RRC_Downlink"){
                             //get the location of the sender and receiver
                             sf::Vector2f senderPos;
                             sf::Vector2f receiverPos;
@@ -226,12 +226,12 @@ inline void networkThread(VisualiserManager& manager) {
 
                             //create the receptionIcon and add it to the manager
 
-                        }
-                        else{
-                            //we are in mesh Mode
-                            manager.changeArrowState(rmp.senderId, rmp.receiverId, rmp.state);
+                        
+                        // else{
+                        //     //we are in mesh Mode
+                        //     manager.changeArrowState(rmp.senderId, rmp.receiverId, rmp.state);
 
-                        }
+                        // }
 
 
                     }

@@ -37,7 +37,7 @@ public:
 
 
     // Constructor
-    Arrow(const sf::Vector2f& start, const sf::Vector2f& end, float duration, int senderId, int receiverId);
+    Arrow(const sf::Vector2f& start, const sf::Vector2f& end,  int senderId, int receiverId);
 
     // Load textures for state icons
     bool loadTextures(const std::string& interferencePath, const std::string& notListeningPath, const std::string& receivedPath);

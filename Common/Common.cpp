@@ -9,18 +9,18 @@ std::string COMMUNICATION_MODE = "None";
 int TICK_NB = 0;
 float DISTANCE_THRESHOLD = 0.0f;
 float broadcastDuration = 1.3f;
-float receptionDuration = 1.3f;
-float arrowDuration = 1.0f;
-double radiusIcon=25.0f;
+float receptionDuration = 1.0f;
+float arrowDuration = 0.7f;
+double radiusIcon=35.0f;
 std::mutex deviceMutex;
 
-//General DATA:
 constexpr const int windowWidth = 1800;
 constexpr const int windowHeight = 1200;
 
 int verticalOffset=1100;
-int horizontalOffset=400;
+int horizontalOffset=800;
 float distanceDivider=0.4f;
+
 //Buttons:
 const std::string on = "ON";
 const std::string off = "OFF";
