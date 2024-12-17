@@ -8,10 +8,6 @@ bool isRunning = true;                // Flag to signal threads to stop
 std::string COMMUNICATION_MODE = "None";
 int TICK_NB = 0;
 float DISTANCE_THRESHOLD = 0.0f;
-float broadcastDuration = 1.3f;
-float receptionDuration = 1.0f;
-float arrowDuration = 0.7f;
-double radiusIcon=35.0f;
 std::mutex deviceMutex;
 
 constexpr const int windowWidth = 1800;
@@ -58,4 +54,11 @@ std::string state4 = off;
 const std::string iconPath4 = "assets/Icons/routing.png";
 
 
+//Animations: 
+const sf::Color dataArrowColor = sf::Color::Red;
+const sf::Color ackArrowColor = sf::Color::Green;
 
+float broadcastDuration = 1.3f;
+float receptionDuration = 1.0f;
+float arrowDuration = 0.7f;
+double radiusIcon=35.0f;

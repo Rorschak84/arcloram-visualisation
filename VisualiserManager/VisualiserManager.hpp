@@ -13,6 +13,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include "../ReceptionIcon/ReceptionIcon.hpp"
+#include "../PacketDrop/PacketDrop.hpp"
 
 
 
@@ -40,12 +41,14 @@ public:
     std::vector<std::unique_ptr<Button>> buttons; // List of buttons
     std::vector<std::unique_ptr<Device>> devices; // List of devices (if used elsewhere)
     std::vector<std::unique_ptr<Arrow>> arrows; // List of arrows
-
+    std::vector<std::unique_ptr<PacketDrop>> dropAnimations; // List of packet drop animations
 
     void addButton(std::unique_ptr<Button> button);
     void addDevice(std::unique_ptr<Device> device);
     void addArrow(std::unique_ptr<Arrow> arrow);
     void addReceptionIcon(std::unique_ptr<ReceptionIcon> receptionIcon);
+    void addDropAnimation(std::unique_ptr<PacketDrop> dropAnimation);
+
 
     void changeArrowState(int senderId, int receiverId, std::string state);
 

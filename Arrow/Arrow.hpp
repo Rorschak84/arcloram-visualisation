@@ -28,7 +28,8 @@ private:
 
     // Helper to calculate angle for the arrowhead
     float calculateAngle(const sf::Vector2f& p1, const sf::Vector2f& p2) const;
-
+    sf::Color color;  // Arrow color
+    
 public:
 
     int SenderId;       // Used to display the reception state of the message
@@ -37,7 +38,7 @@ public:
 
 
     // Constructor
-    Arrow(const sf::Vector2f& start, const sf::Vector2f& end,  int senderId, int receiverId);
+    Arrow(const sf::Vector2f& start, const sf::Vector2f& end,  int senderId, int receiverId, sf::Color color = sf::Color::Red);
 
     // Load textures for state icons
     bool loadTextures(const std::string& interferencePath, const std::string& notListeningPath, const std::string& receivedPath);

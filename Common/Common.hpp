@@ -75,14 +75,14 @@ extern const std::string iconPath4;
 
 
 
-//Animations
+//Animations----------------------------------------------
 inline // Helper function to convert std::pair<int, int> to sf::Vector2f
 sf::Vector2f pairToVector2f(const std::pair<int, int>& pair) {
     return sf::Vector2f(static_cast<float>(pair.first), static_cast<float>(pair.second));
 }
 
-//Routing
-
+extern const sf::Color dataArrowColor;
+extern const sf::Color ackArrowColor;
  
 // Function to create an arrowhead shape
 inline sf::ConvexShape createArrowhead(sf::Vector2f position, sf::Vector2f direction, float headLength, float headWidth) {

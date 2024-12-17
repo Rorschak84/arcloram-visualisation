@@ -3,8 +3,8 @@
 #include "../Common/Common.hpp"
 
 // Constructor
-Arrow::Arrow(const sf::Vector2f& start, const sf::Vector2f& end,  int senderId, int receiverId)
-    : start(start), end(end), progress(0.0f), duration(arrowDuration), SenderId(senderId), ReceiverId(receiverId), receptionDuration(receptionDuration), receptionComplete(false) {
+Arrow::Arrow(const sf::Vector2f& start, const sf::Vector2f& end,  int senderId, int receiverId, sf::Color color)
+    : start(start), end(end), progress(0.0f), duration(arrowDuration), SenderId(senderId), ReceiverId(receiverId), receptionDuration(receptionDuration), receptionComplete(false), color(color) {
     // Initialize line (shaft of the arrow)
     line.setSize(sf::Vector2f(0, 7)); // Initially, the line length is 0, thickness = 7
     line.setFillColor(sf::Color::Red);

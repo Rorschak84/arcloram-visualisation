@@ -46,6 +46,11 @@ void VisualiserManager::addReceptionIcon(std::unique_ptr<ReceptionIcon> receptio
     receptionIcons.push_back(std::move(receptionIcon));
 }
 
+void VisualiserManager::addDropAnimation(std::unique_ptr<PacketDrop> dropAnimation)
+{
+    dropAnimations.push_back(std::move(dropAnimation));
+}
+
 void VisualiserManager::changeArrowState(int senderId, int receiverId, std::string state)
 {
     if(state!="interference"&&state!="notListening"&&state!="received"){
@@ -107,6 +112,19 @@ void VisualiserManager::update()
         }),
         broadcastAnimations.end());
 
+    // Update all drop animations
+    for (auto& drop : dropAnimations) {
+        drop->update();
+    }
+
+    //remove finished drop animations
+    dropAnimations.erase(std::remove_if(dropAnimations.begin(), dropAnimations.end(),
+        [](const std::unique_ptr<PacketDrop>& drop) {
+            return drop->isFinished();
+        }),
+        dropAnimations.end());
+
+    
 
     //Update transmission animation
     for(auto& arrow : arrows){
@@ -134,18 +152,18 @@ void VisualiserManager::draw(sf::RenderWindow& window) {
     window.draw(tickNb);
 
     //Button States
-    displayText << "Button States:\n";
+    // displayText << "Button States:\n";
 
-    for (int i = 0; i < buttons.size(); ++i) {
-        displayText << "Button " << (i + 1) << ": " << buttons[i]->getState() << "\n";
-    }
-    text.setString(displayText.str());
-    text.setPosition(10.f, 300.f); // Display below buttons
-    window.draw(text);
+    // for (int i = 0; i < buttons.size(); ++i) {
+    //     displayText << "Button " << (i + 1) << ": " << buttons[i]->getState() << "\n";
+    // }
+    // text.setString(displayText.str());
+    // text.setPosition(10.f, 300.f); // Display below buttons
+    // window.draw(text);
 
 
+if(buttons[0]->getState()=="ON")    drawRootings(window);
 
-    drawRootings(window);
 
     for (auto& device : devices) {
         device->draw(window);
@@ -159,6 +177,11 @@ void VisualiserManager::draw(sf::RenderWindow& window) {
     }
     for(auto& recepIcon :receptionIcons){
         recepIcon->draw(window);
+    }
+
+    for(auto& animation: dropAnimations)
+    {
+        animation->draw(window);
     }
 
 }

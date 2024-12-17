@@ -28,9 +28,9 @@ int main() {
     std::unique_ptr<Button> button4 =std::make_unique <Button> (x4coor, y4coor, width4, height4, color4, state4, on, off, iconPath4);
 
 
-    manager.addButton(std::move(button1));
-    manager.addButton(std::move(button2));
-    manager.addButton(std::move(button3));
+    // manager.addButton(std::move(button1));
+    // manager.addButton(std::move(button2));
+    // manager.addButton(std::move(button3));
     manager.addButton(std::move(button4));
 
     // Start threads

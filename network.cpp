@@ -8,7 +8,7 @@
 #include "Packets/Packets.hpp" 
 #include "Common/Common.hpp"
 #include "VisualiserManager/VisualiserManager.hpp"
-
+#include "PacketDrop/PacketDrop.hpp"
 
 
 inline void networkThread(VisualiserManager& manager) {
@@ -96,6 +96,7 @@ inline void networkThread(VisualiserManager& manager) {
                     break;
                 }
                 case 3: {
+                    //TODO: use sf::Vector2(f?) instead of std::pair 
                     positionPacket pp;
                     packet >>pp.nodeId>> pp.classNode>> pp.coordinates.first>> pp.coordinates.second; // Deserialize the positionPacket
                     //make the coordinates received adapted for the screen available to the user
@@ -131,10 +132,10 @@ inline void networkThread(VisualiserManager& manager) {
 
                 case 4: {
                     transmitMessagePacket tmp;
-                    packet >> tmp.senderId >> tmp.receiverId; // Deserialize the transmitMessagePacket
+                    packet >> tmp.senderId >> tmp.receiverId>>tmp.isACK; // Deserialize the transmitMessagePacket
                     std::cout << "Received transmitMessagePacket: "
                         << "senderId=" << tmp.senderId
-                        << ", receiverId=" << tmp.receiverId << std::endl;
+                        << ", receiverId=" << tmp.receiverId<<", isACK= "<<tmp.isACK << std::endl;
                     std::string message = "Received transmitMessagePacket: senderId=" + std::to_string(tmp.senderId) + ", receiverId=" + std::to_string(tmp.receiverId);
                     {
                         std::lock_guard<std::mutex> lock(logMutex);
@@ -168,8 +169,9 @@ inline void networkThread(VisualiserManager& manager) {
                             
                         }
                         else{
-                            
-                            std::unique_ptr<Arrow> arrow = std::make_unique<Arrow>(senderCoordinates,receiverCoordinates, tmp.senderId,tmp.receiverId);
+                            std::unique_ptr<Arrow> arrow;
+                            if(tmp.isACK)   arrow = std::make_unique<Arrow>(senderCoordinates,receiverCoordinates, tmp.senderId,tmp.receiverId,ackArrowColor);
+                            else arrow = std::make_unique<Arrow>(senderCoordinates,receiverCoordinates, tmp.senderId,tmp.receiverId, dataArrowColor);
                             manager.addArrow(std::move(arrow));
                         }
 
@@ -299,6 +301,43 @@ inline void networkThread(VisualiserManager& manager) {
                             manager.startBroadcast(senderCoordinates, broadcastDuration);
                         }
 
+                    }
+                    break;
+                }
+
+                case 8:{
+                    dropAnimationPacket dap;
+                    packet >> dap.nodeId; // Deserialize the dropAnimationPacket
+                    std::cout << "Received dropAnimationPacket: "
+                        << "nodeId=" << dap.nodeId << std::endl;
+                    std::string message = "Received dropAnimationPacket: nodeId=" + std::to_string(dap.nodeId);
+                    {
+                        std::lock_guard<std::mutex> lock(logMutex);
+                        logMessages.push_back(message);
+                    }
+                    {
+                        std::lock_guard<std::mutex> lock(deviceMutex);
+                        // Create a drop animation
+                        sf::Vector2f senderCoordinates;
+                        bool foundSender = false;
+                        for(auto& device : manager.devices){
+                            if(device->nodeId == dap.nodeId){
+                                senderCoordinates =pairToVector2f( device->coordinates);
+                                foundSender = true;
+                            }
+                        }   
+                        if(!foundSender){
+                            {
+                                std::lock_guard<std::mutex> lock(logMutex);
+                                logMessages.push_back("******Error: Sender Not Found for Drop Animation******");
+                            } 
+                            std::cout<<"******Error: Sender Not Found for Drop Animation******\n";
+
+                        }
+                        else{
+                            std::unique_ptr<PacketDrop> drop = std::make_unique<PacketDrop>(senderCoordinates, 1.6f);
+                            manager.addDropAnimation(std::move(drop));
+                        }
                     }
                     break;
                 }
