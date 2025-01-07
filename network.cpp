@@ -98,7 +98,7 @@ inline void networkThread(VisualiserManager& manager) {
                 case 3: {
                     //TODO: use sf::Vector2(f?) instead of std::pair 
                     positionPacket pp;
-                    packet >>pp.nodeId>> pp.classNode>> pp.coordinates.first>> pp.coordinates.second; // Deserialize the positionPacket
+                    packet >>pp.nodeId>> pp.classNode>> pp.coordinates.first>> pp.coordinates.second>>pp.batteryLevel; // Deserialize the positionPacket
                     //make the coordinates received adapted for the screen available to the user
                     pp.coordinates.first+=horizontalOffset;
                     pp.coordinates.second+=verticalOffset;
@@ -109,14 +109,15 @@ inline void networkThread(VisualiserManager& manager) {
                         << "nodeId=" << pp.nodeId
                         << ", classNode=" << pp.classNode
                         << "coordinates=(" << pp.coordinates.first
-                        << ", " << pp.coordinates.second << ")" << std::endl;
+                        << ", " << pp.coordinates.second  <<")"
+                        << ", Battery:" <<pp.batteryLevel << std::endl;
 
                     {
                         std::lock_guard<std::mutex> lock(deviceMutex);
                         // Update the device position
                         //TODO: adapt the magnitude in the simulator to the relative magnitude in the visualisator
 
-                        std::unique_ptr<Device> device = std::make_unique<Device>(pp.nodeId, pp.classNode, pp.coordinates);
+                        std::unique_ptr<Device> device = std::make_unique<Device>(pp.nodeId, pp.classNode, pp.coordinates,pp.batteryLevel);
                         manager.addDevice(std::move(device));
                         //for routing
                         manager.addDeviceId(pp.nodeId);

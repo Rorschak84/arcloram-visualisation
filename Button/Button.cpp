@@ -40,7 +40,9 @@ void Button::handleEvent(const sf::Event& event, const sf::RenderWindow& window)
     if (event.type == sf::Event::MouseButtonPressed &&
         event.mouseButton.button == sf::Mouse::Left) {
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-        if (shape.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y))) {
+        sf::Vector2f mouseWorldPos = window.mapPixelToCoords(mousePos);
+
+        if (shape.getGlobalBounds().contains(mouseWorldPos)) {
             // Toggle state and update global variable
             std::cout<<"Button pressed, stateis "<<state<<std::endl;
             state = (state == offState) ? onState : offState;

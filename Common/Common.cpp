@@ -10,8 +10,8 @@ int TICK_NB = 0;
 float DISTANCE_THRESHOLD = 0.0f;
 std::mutex deviceMutex;
 
-constexpr const int windowWidth = 1800;
-constexpr const int windowHeight = 1200;
+constexpr const int windowWidth = 1700;
+constexpr const int windowHeight = 1100;
 
 int verticalOffset=1100;
 int horizontalOffset=800;
@@ -45,7 +45,7 @@ const sf::Color color3 = sf::Color::Blue;
 std::string state3 = off;
 const std::string iconPath3 = "assets/Icons/fastplay.png";
 
-const float x4coor = 1800.f - 150.f;
+const float x4coor = 1800.f - 350.f;
 const float y4coor = 100.f;
 const float width4 = 80.f;
 const float height4 = 40;

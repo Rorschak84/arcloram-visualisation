@@ -13,7 +13,7 @@
 
 
 inline  void displayThread(VisualiserManager& manager) {
-    sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "ArcLoRaM Protocol",sf::Style::Titlebar | sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "ArcLoRaM Protocol",sf::Style::Default);
     sf::Font font;
     if (!font.loadFromFile("assets/arial.ttf")) {
         std::cerr << "Error loading font\n";
@@ -40,6 +40,11 @@ inline  void displayThread(VisualiserManager& manager) {
             for (auto& button : manager.buttons) {
                 button->handleEvent(event, window);
             }
+
+            // Handle Device Clicks
+            for(auto& device: manager.devices){
+                device->handleEvent(event,window);
+            }
         }
 
         window.clear(sf::Color::Black);
@@ -59,16 +64,16 @@ inline  void displayThread(VisualiserManager& manager) {
         {
         std::lock_guard<std::mutex> lock(logMutex);
         
-        float y = 1000.0f;
+        float y = 940.0f;
         while (logMessages.size() > 10) {
             logMessages.erase(logMessages.begin());
         }
         for (auto it = logMessages.rbegin(); it != logMessages.rend(); ++it) {
-            sf::Text text(*it, font, 20);
+            sf::Text text(*it, font, 10);
             text.setFillColor(sf::Color::White);
             text.setPosition(10.0f, y);
             window.draw(text);
-            y -= 25.0f;
+            y -= 15.0f;
         }
         }
 
