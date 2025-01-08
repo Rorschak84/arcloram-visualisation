@@ -93,6 +93,10 @@ inline void networkThread(VisualiserManager& manager) {
                             }
                         }
                     }
+                    //+1 unit of energy if communicate mode (we don't care about C3 so we don't include listen as for the moment it's the only node doing that, when we implement ENC modes, we need to fix this)
+                    if(snp.state=="Communicate"){
+                        ENERGYEXP++;
+                    }
                     break;
                 }
                 case 3: {
@@ -178,7 +182,7 @@ inline void networkThread(VisualiserManager& manager) {
 
                             
                     }
-
+                    ENERGYEXP+=20;
                     break;
                 }
                 case 5: {
@@ -303,6 +307,7 @@ inline void networkThread(VisualiserManager& manager) {
                         }
 
                     }
+                    ENERGYEXP+=20;
                     break;
                 }
 
@@ -341,6 +346,11 @@ inline void networkThread(VisualiserManager& manager) {
                         }
                     }
                     break;
+                }
+                case 9:{
+                    retransmissionPacket rp;
+                    //for now, we simply care about the fact there is retransmission, not the origin, the frequency..,
+                    NBRETRANSMISSION++;
                 }
                 default:
                     std::cerr << "Unknown packet type: " << packetType << std::endl;

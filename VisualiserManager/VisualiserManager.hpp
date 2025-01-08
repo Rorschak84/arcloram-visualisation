@@ -26,6 +26,11 @@ private:
     sf::Text communicationMode;
     sf::Text tickNb;
 
+    sf::Text nbRetransmission;
+    sf::String nbRetransmissionString;
+    sf::Text energyExpenditure;
+    sf::String energyExpenditureString;
+
     std::vector<std::unique_ptr<BroadcastAnimation>> broadcastAnimations; // List of active broadcast animations
     std::vector<std::unique_ptr<ReceptionIcon>> receptionIcons; // List of active reception icons  
 

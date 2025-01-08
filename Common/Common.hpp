@@ -9,7 +9,7 @@
 
 //shared data
 #pragma once
-
+//TODO: put const in const values
 //shared data
 extern std::vector<std::string> logMessages;  // Shared container for received strings
 extern std::mutex logMutex;                  // Mutex to protect the container
@@ -32,10 +32,14 @@ extern double radiusIcon;
 extern int verticalOffset;
 extern int horizontalOffset;
 extern float distanceDivider;
+//TODO: make every UI elements Proportionnal to windowWidth and Heigt, to allow resizing. Right now, it's a fixed size
 
 //General DATA:
 extern  const int windowWidth;
 extern  const int windowHeight;
+extern int NBRETRANSMISSION;
+//Listen-> 1 energy unit. Transmit -> 20 energy unit
+extern int ENERGYEXP;
 
 //Buttons:
 extern const std::string on;

@@ -24,8 +24,22 @@ VisualiserManager::VisualiserManager()
 
     tickNb.setFont(font);
     tickNb.setCharacterSize(20);
-    tickNb.setPosition(10.f, 80.f);
+    tickNb.setPosition(10.f, 120.f);
     tickNb.setFillColor(sf::Color::White);
+
+    nbRetransmission.setFont(font);
+    nbRetransmission.setCharacterSize(20);
+    nbRetransmission.setPosition(10.f, 60.f);
+    nbRetransmission.setFillColor(sf::Color::White); 
+    nbRetransmissionString="Retransmissions:  ";
+    
+    energyExpenditure.setFont(font);
+    energyExpenditure.setCharacterSize(20);
+    energyExpenditure.setPosition(10.f, 90.f);
+    energyExpenditure.setFillColor(sf::Color::White); 
+    energyExpenditureString="Energy Expenditure: ";
+          
+
 }
 
 void VisualiserManager::addButton(std::unique_ptr<Button> button) {
@@ -150,6 +164,12 @@ void VisualiserManager::draw(sf::RenderWindow& window) {
 
     tickNb.setString("Tick Number: " + std::to_string(TICK_NB));
     window.draw(tickNb);
+
+    energyExpenditure.setString(energyExpenditureString+std::to_string(ENERGYEXP));
+    window.draw(energyExpenditure);
+
+    nbRetransmission.setString(nbRetransmissionString+std::to_string(NBRETRANSMISSION));
+    window.draw(nbRetransmission);
 
     //Button States
     // displayText << "Button States:\n";
