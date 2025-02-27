@@ -6,8 +6,8 @@ The original idea behind the visualizer is to propose an interface to interact w
 
 ## Demo:
 
-Link for demo is available soon !!
-
+[Link to the video
+](https://youtu.be/G0fd1k9Jc2k?si=-FvLKjObjD7HH-DO)
 
 ## Installation
 
